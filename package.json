@@ -1,0 +1,31 @@
+{
+  "name": "twc-express-lambda",
+  "version": "0.0.1",
+  "description": "Express server for Tile Layers to use in ArcGIS Online",
+  "main": "index.js",
+  "dependencies": {
+    "aws-serverless-express": "^3.0.2",
+    "config": "^1.26.2",
+    "express": "^4.16.1",
+    "node-schedule": "^1.2.5",
+    "request": "^2.83.0",
+    "request-promise": "^4.2.2",
+    "request-promise-native": "^1.0.5"
+  },
+  "devDependencies": {
+    "eslint": "^4.7.2",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-promise": "^3.5.0",
+    "eslint-plugin-standard": "^3.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "lambda-create": "claudia create --handler lambda.handler --deploy-proxy-api --region us-east-1 --set-env DEPLOY=export --profile claudia",
+    "lambda-update": "claudia update --profile claudia --set-env DEPLOY=export"
+  },
+  "author": "Adam Pfister",
+  "license": "Apache-2.0"
+}
