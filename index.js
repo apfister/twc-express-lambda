@@ -31,7 +31,6 @@ app.use('/:layerId/:level/:row/:col/:apiKey', (req, res, next) => {
 
     updateTimeSlices(apiKey)
       .then(() => {
-        // const everyFiveSeconds = '*/5 * * * * *';
         const everyFiveMinutes = '*/5 * * * *';
 
         schedule.scheduleJob(everyFiveMinutes, () => {
@@ -61,8 +60,6 @@ app.use('/:layerId/:level/:row/:col/:apiKey', (req, res) => {
     requestUrl = `${requestUrl}&fts=${fts}`;
   }
 
-  console.log(requestUrl);
-
   // request
   //   .get(requestUrl)
   //   .pipe(res);
@@ -73,7 +70,7 @@ app.use('/:layerId/:level/:row/:col/:apiKey', (req, res) => {
 
 app.use('/layers', (req, res) => {
   if (!req.query.apiKey) {
-    return res.send('no apiKey specified');
+    return res.send('you must provide the apiKey as a parameter in your URL. ex: ?apiKey=12345678910');
   }
 
   updateTimeSlices(req.query.apiKey)
@@ -99,12 +96,10 @@ if (process.env.DEPLOY === 'export') {
   app.listen(port, () => {
     const message = `
 
-    Koop Sample Provider listening on ${port}
-    For more docs visit: https://koopjs.github.io/docs/specs/provider/
-    To find providers visit: https://www.npmjs.com/search?q=koop+provider
+    now listening on ${port}
 
-    Try it out in your browser: http://localhost:${port}/sample/FeatureServer/0/query
-    Or on the command line: curl --silent http://localhost:${port}/sample/FeatureServer/0/query?returnCountOnly=true
+    Try it out in your browser: http://localhost:${port}/layers
+    Or on the command line: curl --silent http://localhost:${port}/layers
 
     Press control + c to exit
     `;
