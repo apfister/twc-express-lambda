@@ -1,3 +1,4 @@
+const config = require('config');
 const express = require('express');
 const app = express();
 const rpn = require('request-promise-native');
@@ -75,7 +76,13 @@ app.use('/layers', (req, res) => {
 
   updateTimeSlices(req.query.apiKey)
     .then(seriesInfo => {
-      const layers = Object.keys(seriesInfo).map(key => key);
+      const originUrl = `${req.protocol}://${req.get('host')}`;
+      const layers = Object.keys(seriesInfo).map(key => {
+        return {
+          layerId: key,
+          webTileLayerTemplateUrl: `${originUrl}/${key}/{level}/{row}/{col}/${req.query.apiKey}`
+        };
+      });
 
       res
         .status(200)
@@ -90,7 +97,7 @@ if (process.env.DEPLOY === 'export') {
   module.exports = app;
 } else {
   // Start listening for HTTP traffic
-  const config = require('config');
+
   // Set port for configuration or fall back to default
   const port = config.port || 8080;
   app.listen(port, () => {
